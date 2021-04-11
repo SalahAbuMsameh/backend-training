@@ -2,12 +2,14 @@ package com.digitinary.training;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+
+import com.digitinary.training.abst.ParentType;
+import com.digitinary.training.abst.TypeOne;
 
 /**
  * 
@@ -22,9 +24,15 @@ public class EntryPoint {
 	 */
 	public static void main(String[] args) {
 		
-		listExample();
-		//setExample();
+		//listExample();
+		setExample();
 		//mapExample();
+		
+		
+		ParentType t = new TypeOne();
+		TypeOne t1 = new TypeOne();
+		
+		ParentType tt1 = (ParentType) t1;
 	}
 	
 	/**
@@ -56,13 +64,126 @@ public class EntryPoint {
 	private static void setExample() {
 		
 		//Set
-		Set<String> set = new HashSet<String>();
-		set.add("AAAA");// generate key -> map.put(generatedKey, "AAAA")
-		set.add("AAAA");
+		//Set<String> set = new HashSet<String>();
+		//set.add("AAAA");// generate key -> map.put(generatedKey, "AAAA")
+		//set.add("AAAA");
 		
+		
+		//default comparison
 		Set<String> treeSet = new TreeSet<String>();
 		
-		set.forEach(element -> System.out.println(element));
+		treeSet.add("AAA");
+		treeSet.add("BBB");
+		treeSet.add("CCC");
+		
+		Set<Integer> test = new TreeSet<Integer>();
+		
+		test.add(1);
+		test.forEach(no -> {
+			no++;
+			System.out.println(no);
+		});
+		
+		//treeSet.forEach(val -> System.out.println(val));
+		
+		//Compare using comparable
+//		Set<Student> students = new TreeSet<Student>(new Comparator<Student>() {
+//
+//			@Override
+//			public int compare(Student o1, Student o2) {
+//				
+//				if(o1.getId() > o2.getId()) {
+//					return 1;//this object is greater that passed object
+//				} else if (o1.getId() == o2.getId()) {
+//					return 0;//0 this object is equal the passed object
+//				} else {
+//					return -1;// this object is less that the passed object
+//				}
+//			}
+//		});
+		
+		
+		//Lambda syntax to pass anonymous class
+		Set<Student> students = new TreeSet<Student>((o1, o2) -> {
+			
+			if(o1.getId() > o2.getId()) {
+				return 1;//this object is greater that passed object
+			} else if (o1.getId() == o2.getId()) {
+				return 0;//0 this object is equal the passed object
+			} else {
+				return -1;// this object is less that the passed object
+			}
+		});
+		
+		students.add(new Student(5));
+		students.add(new Student(8));
+		students.add(new Student(7));
+		
+		students.forEach(val -> System.out.println(val));
+	}
+	
+	/**
+	 * 
+	 * Apr 10, 2021
+	 * @author Salah Abu Msameh
+	 */
+//	static class StudentComparator implements Comparator<Student> {
+//
+//		@Override
+//		public int compare(Student o1, Student o2) {
+//			
+//			if(o1.getId() > o2.getId()) {
+//				return 1;//this object is greater that passed object
+//			} else if (o1.getId() == o2.getId()) {
+//				return 0;//0 this object is equal the passed object
+//			} else {
+//				return -1;// this object is less that the passed object
+//			}
+//		}
+//	}
+	
+	/**
+	 * 
+	 * Apr 10, 2021
+	 * @author Salah Abu Msameh
+	 */
+	//static class Student implements Comparable<Student> {
+	static class Student {
+		
+		private int id;
+
+		/**
+		 * 
+		 * @param id
+		 */
+		public Student(int id) {
+			this.id = id;
+		}
+		
+		/**
+		 * 
+		 * @return
+		 */
+		public int getId() {
+			return id;
+		}
+		
+		@Override
+		public String toString() {
+			return String.valueOf(this.id);
+		}
+
+//		@Override
+//		public int compareTo(Student o) {
+//			
+//			if(this.id > o.getId()) {
+//				return 1;//this object is greater that passed object
+//			} else if (this.id == o.getId()) {
+//				return 0;//0 this object is equal the passed object
+//			} else {
+//				return -1;// this object is less that the passed object
+//			}
+//		}
 	}
 	
 	/**
