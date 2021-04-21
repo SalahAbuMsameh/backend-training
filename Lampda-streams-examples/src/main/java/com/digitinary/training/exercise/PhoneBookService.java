@@ -2,7 +2,8 @@ package com.digitinary.training.exercise;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
+
+import com.digitinary.training.exercise.exception.PhoneBookNotFoundException;
 
 /**
  * 
@@ -11,16 +12,13 @@ import java.util.Optional;
  */
 public class PhoneBookService {
 	
-	/*
-	 * Ismail, 60003545
-Salah, 99033004
-Ahmad, 51550055
-Anas, 77333444
+	/**
+	 * static data to build business logic (behavior)
 	 */
 	private List<PhoneBook> phoneBooks = Arrays.asList(new PhoneBook(1, "Ismail", "60003545"),
 			new PhoneBook(2, "Salah", "65991876"), new PhoneBook(3, "Ahmad", "60003545"),
 			new PhoneBook(4, "Anas", "77333444"), new PhoneBook(5, "Dyaa", "5569854"), 
-			new PhoneBook(6, "Azza,", "65999658"), new PhoneBook(7, "Abdullah", "55488745"));
+			new PhoneBook(6, "Azzam", "65999658"), new PhoneBook(7, "Abdullah", "55488745"));
 
 	/**
 	 * find {@link PhoneBook} by the given name.
@@ -28,11 +26,23 @@ Anas, 77333444
  	 * @param name
 	 * @return
 	 */
-	public Optional<PhoneBook> findPhoneNumberByName(final String name) {
+	public PhoneBook findPhoneNumberByName(final String name) throws PhoneBookNotFoundException {
 		
 		//if given name or id is not exists, raise an custom exception "PhoneBookNotFoundException"
+		return phoneBooks.stream()
+			.filter(std -> std.getName().equals(name))
+			.findFirst()
+			.orElseThrow(() -> new PhoneBookNotFoundException(name));
 		
-		return null;
+		//Traditional way (non functional programming way)
+		/*for(PhoneBook phoneBook : phoneBooks) {
+			//filter
+			if(phoneBook.getName().equals(name)) {
+				return phoneBook;
+			}
+		}
+		
+		throw new PhoneBookNotFoundException();*/
 	}
 	
 	//TODO: implement method findNameById

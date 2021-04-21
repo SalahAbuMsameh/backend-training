@@ -12,7 +12,6 @@ public class PhoneBook {
 	private String phoneNo;
 	
 	public PhoneBook(int id, String name, String phoneNo) {
-		super();
 		this.id = id;
 		this.name = name;
 		this.phoneNo = phoneNo;
@@ -41,4 +40,10 @@ public class PhoneBook {
 	public void setPhoneNo(String phoneNo) {
 		this.phoneNo = phoneNo;
 	}
+	
+	@Override
+		public String toString() {
+			return String.format("Id [%d], Name [%s], PhoneNo [%s]", 
+					this.id, this.name, this.phoneNo);
+		}
 }
