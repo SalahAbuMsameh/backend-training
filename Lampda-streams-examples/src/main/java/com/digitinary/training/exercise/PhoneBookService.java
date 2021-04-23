@@ -2,6 +2,8 @@ package com.digitinary.training.exercise;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.digitinary.training.exercise.exception.PhoneBookNotFoundException;
 
@@ -48,8 +50,28 @@ public class PhoneBookService {
 	//TODO: implement method findNameById
 	//if given id is not exists, raise an exception
 	
+	public PhoneBook getPhoneBookById(final int id) throws PhoneBookNotFoundException {
+		
+		return phoneBooks.stream()
+				.filter(pb -> pb.getId() == id)
+				.findFirst()
+				.orElseThrow(() -> new PhoneBookNotFoundException(id));
+	}
+
 	
 	//TODO: implement a method to collect the given ids to map getPhoneBooksAsMap(list<Integer> ids)
 	//if one of the given ids is not exists, just ignore
 	//if non of the given ids are exist, then return empty map.
+	
+	/**
+	 * 
+	 * @param ids
+	 * @return
+	 */
+	public Map<Integer, PhoneBook> getPhoneBooksAsMap(List<Integer> ids) {
+		
+		return phoneBooks.stream()
+				.filter(pb -> ids.contains(pb.getId()))
+				.collect(Collectors.toMap(PhoneBook::getId, pb -> pb));
+	}
 }
