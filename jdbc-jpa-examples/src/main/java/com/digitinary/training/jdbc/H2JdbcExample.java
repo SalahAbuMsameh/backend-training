@@ -38,11 +38,15 @@ public class H2JdbcExample {
 					+ "	MOBILE_NO VARCHAR(15)\r\n"
 					+ ")";
 			
+			
 			stmt.execute("DROP TABLE CUSTOMERS");
 			stmt.execute(ceateTable);
+			
+			//con.setAutoCommit(false);//don't save immediatly
 			stmt.execute("INSERT INTO CUSTOMERS VALUES (1, 'Salah', '1111111')");
 			stmt.execute("INSERT INTO CUSTOMERS VALUES (2, 'Ismael', '2222222')");
 			stmt.execute("INSERT INTO CUSTOMERS VALUES (3, 'Third', '33333333')");
+			//con.commit();//save db changes
 			
 			ResultSet rs = stmt.executeQuery("SELECT * FROM CUSTOMERS");
 			
@@ -56,6 +60,7 @@ public class H2JdbcExample {
 		} catch (SQLException e) {
 			System.err.println("Connection error : " + e.getMessage());
 			System.exit(1);
+			//con.rollback();
 		} finally {
 			try {
 				con.close();

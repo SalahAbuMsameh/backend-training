@@ -2,23 +2,30 @@ package com.digitinary.training.jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.Scanner;
 
 /**
  * 
- * May 24, 2021
+ * May 26, 2021
  * @author Salah Abu Msameh
  */
-public class PostgresJdbcExample {
+public class SqlInjectionExample {
 
 	/**
 	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
+	
+		Scanner in = new Scanner(System.in);
+		System.out.println("Please enter customer id >> ");
+		int customerId = in.nextInt();
+		
+		System.out.println("Please enter customer name >> ");
+		String customerName = in.next();
 		
 		Connection con = null;
 		
@@ -30,22 +37,16 @@ public class PostgresJdbcExample {
 			con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/customer_service", "postgres", "postgres");
 			
 			//3. execute sql statement
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM CUSTOMERS");
+			String sql = "SELECT * FROM CUSTOMERS WHERE CUSTOMER_ID = ? OR NAME = ?";
+			PreparedStatement stmt = con.prepareStatement(sql);//compile sql
+			stmt.setInt(1, customerId);
+			stmt.setString(2, customerName.trim());
+			
+			ResultSet rs = stmt.executeQuery();
 			
 			while(rs.next()) {//[1, 2, 3]
 				System.out.println(String.format("ID:%d, Name:%s, Mobile:%s", rs.getLong(1), rs.getString(2), rs.getString(3)));
-				//InteSteam(md.getCoulumns) -> { rs.get
 			}
-			
-			//sql procedure
-			//CallableStatementl cs = con.prepareCall("{call procedureName(?, ?, ?)}");
-			
-			//meta data
-			ResultSetMetaData md = rs.getMetaData();
-			System.out.println("Columns count > " + md.getColumnCount());
-			System.out.println("Column 1 type > " + md.getColumnType(2));
-			//2 type >>> JDBCType.NUMERIC
 			
 		} catch (ClassNotFoundException e) {
 			System.err.println("No postgres driver found");
@@ -61,5 +62,4 @@ public class PostgresJdbcExample {
 			}
 		}
 	}
-	
 }
