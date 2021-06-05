@@ -1,15 +1,26 @@
 package com.digitinary.training.jpa;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+@NamedQuery(name = "customFetchCustomers", query = "FROM Customer WHERE customerId > 6")
+//@NamedQueries({@NamedQuery(name = "", query = ""), @NamedQuery(name = "nasdasd", query = "jql")})
 @Entity
 @Table(name = "CUSTOMERS")
 public class Customer {
@@ -31,6 +42,11 @@ public class Customer {
 	
 	@Column(name = "CREATED_DATE")
 	private LocalDate createdDate;
+	
+	@OneToMany(fetch = FetchType.EAGER)//case by case
+	@Fetch(FetchMode.JOIN) // join sql. se
+	@JoinColumn(name = "CUSTOMER_ID")
+	private Set<Account> accounts = new HashSet<Account>();
 
 	public Long getCustomerId() {
 		return customerId;
@@ -72,6 +88,14 @@ public class Customer {
 		this.createdDate = createdDate;
 	}
 	
+	public Set<Account> getAccounts() {
+		return accounts;
+	}
+
+	public void setAccounts(Set<Account> accounts) {
+		this.accounts = accounts;
+	}
+
 	@Override
 	public String toString() {
 		return String.format("ID: %d, name: %s, mobile no; %s, email: %s, created date: %s",

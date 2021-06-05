@@ -61,8 +61,23 @@ public class JpaExample {
 	public static void main(String[] args) {
 		
 		// fetch customer by id
-		Customer c4 = em.find(Customer.class, Long.valueOf(4));
-		System.out.println("Customer >> " + c4);
+		Customer c1 = em.find(Customer.class, Long.valueOf(1));
+		System.out.println("Customer >> " + c1);
+		
+		//JQL
+//		List<Customer> allCustomers = em.createQuery("FROM Customer where customerId > :customerByUser", Customer.class)
+//				.setParameter("customerByUser", 6L)
+//				.getResultList();
+		
+		//List<Customer> allCustomers = em.createQuery(CriteriaBuilder)//TODO: to be implemented next session
+//		allCustomers.forEach(customer -> System.out.println(customer));
+		
+		c1.getAccounts()
+			.forEach(acc -> System.out.println(acc));
+		
+		em.createNamedQuery("customFetchCustomers", Customer.class)
+			.getResultList()
+			.forEach(c -> System.out.println(c));
 		
 		// save new customer
 //		Customer newCustomer = new Customer();
@@ -72,9 +87,9 @@ public class JpaExample {
 //		newCustomer.setEmail("new.customer@email.com");
 //		newCustomer.setCreatedDate(LocalDate.now());
 		
-		em.getTransaction().begin();
+		//em.getTransaction().begin();
 		
-		Customer c16 = em.find(Customer.class, Long.valueOf(16));
+		//Customer c16 = em.find(Customer.class, Long.valueOf(16));
 		
 		//c16.setCustomerName("Modified Customer");
 		//em.merge(c16);
@@ -82,7 +97,7 @@ public class JpaExample {
 		//em.persist(newCustomer);
 		//em.remove(newCustomer);
 		
-		em.getTransaction().commit();
+		//em.getTransaction().commit();
 		System.exit(0);
 	}
 }
