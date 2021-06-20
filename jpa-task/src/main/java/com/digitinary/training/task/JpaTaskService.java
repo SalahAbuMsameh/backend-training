@@ -48,6 +48,10 @@ public class JpaTaskService {
 	 */
 	public boolean addStudent(Student student) {
 		
+		em.getTransaction().begin();
+		em.persist(student);
+		em.getTransaction().commit();
+		
 		return true;
 	}
 	
