@@ -27,7 +27,7 @@ public class ThreadExample {
 		//Thread.currentThread().sleep(10000);
 		
 		//executor.wait();//to wait tell another thread complete execute.
-		executor.notifyAll();
+		//executor.notifyAll();
 		
 		System.out.println("Done");
 	}
