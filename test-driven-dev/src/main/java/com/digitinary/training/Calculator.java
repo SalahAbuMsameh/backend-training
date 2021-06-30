@@ -1,4 +1,4 @@
-package com.digitinary.training.tdd;
+package com.digitinary.training;
 
 /**
  * 
