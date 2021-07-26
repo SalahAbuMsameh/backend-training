@@ -6,7 +6,14 @@
 </head>
 <body>
     <h1>This is all available Products: </h1>
-    <div th:fragment="nav-menu"></div>
-    <div id="content">Settings content</div>
+    <import section="/nav-menu"/>
+    <dev id="content">
+    	<table border="1">
+	    	<tr th:each="p : ${ps}">
+			    <td th:text="${p.id}" />
+			    <td th:text="${p.name}" />
+			</tr>
+	    </table>
+    </dev>
 </body>
 </html>
