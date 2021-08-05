@@ -55,7 +55,7 @@ public class StudentControllerTest {
 		this.mvc.perform(get("/students"))
 	        .andExpect(status().isOk())//http status code - 200
 	        .andDo(print())
-	        .andExpect(jsonPath("$[]", is(15)));
+	        .andExpect(jsonPath("$[0].studentId", is(15)));
 		
 	}
 }
