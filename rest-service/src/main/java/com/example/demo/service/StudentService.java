@@ -1,17 +1,14 @@
 package com.example.demo.service;
 
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
-
-import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Service;
 
 import com.example.demo.model.Student;
+import com.example.demo.repo.StudentRepo;
 
 /**
  * Student business logic.
@@ -21,24 +18,24 @@ import com.example.demo.model.Student;
  */
 @Service
 public class StudentService {
-
-	//database
-	private Map<Long, Student> students = new HashMap<Long, Student>();
 	
-	@PostConstruct
-	private void init() {
-		
-		students.put(1L, new Student(1L, "Azzam", "MALE", "CIS", LocalDate.now()));
-		students.put(2L, new Student(2L, "Ahmad", "MALE", "Software Eng", LocalDate.now()));	
+	private StudentRepo studentRepo;
+	
+	/**
+	 * 
+	 * @param studentRepo
+	 */
+	public StudentService(StudentRepo studentRepo) {
+		this.studentRepo = studentRepo;
 	}
-
+	
 	/**
 	 * 
 	 * @return
 	 */
 	public List<Student> getStudents() {
 		
-		return this.students.values()
+		return this.studentRepo.getAllUsers()
 				.stream()
 				.collect(Collectors.toList());
 	}
@@ -49,7 +46,7 @@ public class StudentService {
 	 * @return
 	 */
 	public Student getStudent(Long studentId) {
-		return this.students.get(studentId);
+		return this.studentRepo.findById(studentId);
 	}
 
 	/**
@@ -61,7 +58,7 @@ public class StudentService {
 		
 		student.setStudentId(new Random().nextLong());
 		student.setJoinDate(LocalDate.now());
-		this.students.put(student.getStudentId(), student);
+		this.studentRepo.save(student);
 		
 		return student;
 	}
@@ -72,6 +69,6 @@ public class StudentService {
 	 * @return
 	 */
 	public Student deleteStudent(Long studentId) {
-		return this.students.remove(studentId);
+		return this.studentRepo.delete(studentId);
 	}
 }

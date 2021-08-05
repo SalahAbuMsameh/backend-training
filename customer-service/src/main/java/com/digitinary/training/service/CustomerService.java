@@ -2,6 +2,7 @@ package com.digitinary.training.service;
 
 import org.springframework.stereotype.Service;
 
+import com.digitinary.training.exception.CustomerNotFoundException;
 import com.digitinary.training.repository.CustomerRepo;
 import com.digitinary.training.repository.entity.Customer;
 
@@ -40,7 +41,7 @@ public class CustomerService {
 	public Customer getCustomer(final Long customerId) {
 		
 		return customerRepo.findById(customerId)
-				.get();
+				.orElseThrow(() -> new CustomerNotFoundException(customerId));
 	}
 	
 	/**

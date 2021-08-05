@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +40,18 @@ public class CustomerRestController {
 	@GetMapping
 	public ResponseEntity<Iterable<Customer>> getCustomers() {
 		return ResponseEntity.ok(this.customerSrv.getCustomers());
+	}
+	
+	/**
+	 * 
+	 * @param customerId
+	 * @return
+	 */
+	@GetMapping("/{customerId}")
+	public ResponseEntity<Customer> getCustomer(@PathVariable("customerId") Long customerId) {
+		
+		CustomerService cs2 = null;
+		return ResponseEntity.ok(cs2.getCustomer(customerId));
 	}
 	
 	/**
